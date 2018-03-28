@@ -40,6 +40,7 @@ class _MyGamesState extends State<MyGames> {
     getGames();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -54,12 +55,12 @@ class _MyGamesState extends State<MyGames> {
                 child: new Container(
                   padding: new EdgeInsets.all(10.0),
                   child: new ListTile(
-                    title: new Text(data[index]['name']),
+                    title: new Text("http:"+data[index]['cover']['url']),
                     onTap: () {
                       var route = new MaterialPageRoute(
                         builder: (BuildContext context) => new GamesDetails(
                               name: data[index]['name'],
-                              cover: data[index]['cover']['url'],
+                              cover: data[index]['cover']['cloudinary_id'],
                             ),
                       );
                       Navigator.of(context).push(route);

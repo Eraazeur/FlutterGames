@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'gamesDetails.dart';
+import 'myGamesSave.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -27,7 +28,7 @@ class _MyGamesState extends State<MyGames> {
           "Accept": "application/json"
         });
     this.setState(() {
-      data = JSON.decode(response.body);
+      data =json.decode(response.body);
     });
     print(data);
     return data;
@@ -40,12 +41,37 @@ class _MyGamesState extends State<MyGames> {
     getGames();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Games Library"),
+      ),
+      drawer: new Drawer(
+        child: new ListView(
+          children: <Widget>[
+            new UserAccountsDrawerHeader(
+              accountEmail: new Text("hugo-leboucq@hotmail.fr"),
+              accountName: new Text("Eraaz"),
+              currentAccountPicture: new CircleAvatar(
+                child: new Text("E"),
+              ),
+              decoration: new BoxDecoration(
+                  image: new DecorationImage(
+                      image: new NetworkImage(
+                          "http://wp-plugins-directory.com/wp-content/uploads/igdb-widget-preview.png"),
+                      fit: BoxFit.cover)),
+            ),
+            new ListTile(
+                title: new Text("My Games"),
+                trailing: new Icon(Icons.games),
+                onTap: () {
+                  var route = new MaterialPageRoute(
+                      builder: (BuildContext context) => new MyGamesSave());
+                  Navigator.of(context).push(route);
+                }),
+          ],
+        ),
       ),
       body: new Container(
         child: new ListView.builder(
@@ -55,7 +81,7 @@ class _MyGamesState extends State<MyGames> {
                 child: new Container(
                   padding: new EdgeInsets.all(10.0),
                   child: new ListTile(
-                    title: new Text("http:"+data[index]['cover']['url']),
+                    title: new Text("http:" + data[index]['cover']['url']),
                     onTap: () {
                       var route = new MaterialPageRoute(
                         builder: (BuildContext context) => new GamesDetails(
